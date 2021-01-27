@@ -1,3 +1,6 @@
+# PLANTILLA APP REACT
+Plantilla para empezar con proyectos para panel Administrativo, control de usuarios, etc.
+
 ## Quick start
 
 - Install dependencies: `npm install` or `yarn`

@@ -1,30 +1,35 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react'
 import {
     makeStyles,
     TableBody,
     TableCell,
     TableRow,
     InputAdornment,
-    Toolbar,
     Fab,
     Box,
     Container,
     Card,
-    CardContent
-} from '@material-ui/core';
-import Page from 'src/components/Page';
+    Avatar,
+    Grid,
+    Typography,
+    colors,
+    Slide
+} from '@material-ui/core'
+import Page from 'src/components/Page'
 import Titulo from 'src/components/Toolbar'
-import Tabla from 'src/components/Tabla';
-import Controls from 'src/components/controls/Controls';
-import { Search } from '@material-ui/icons';
-import AddIcon from '@material-ui/icons/Add';
-import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
-import CloseIcon from '@material-ui/icons/Close';
-import PerfectScrollbar from 'react-perfect-scrollbar';
+import Tabla from 'src/components/Tabla'
+import Controls from 'src/components/controls/Controls'
+import { Search as SearchIcon } from '@material-ui/icons'
+import AddIcon from '@material-ui/icons/Add'
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined'
+import CloseIcon from '@material-ui/icons/Close'
+import PerfectScrollbar from 'react-perfect-scrollbar'
 import Registro from './Registro'
 import Notificacion from 'src/components/Notification'
-import Popup from 'src/components/Popup';
+import Popup from 'src/components/Popup'
 import data from './data'
+import getInitials from 'src/utils/getInitials'
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -48,8 +53,17 @@ const useStyles = makeStyles((theme) => ({
         position: 'absolute',
         bottom: theme.spacing(2),
         right: theme.spacing(2),
+    },
+    avatar: {
+        marginRight: theme.spacing(2),
+        color: theme.palette.getContrastText(colors.deepOrange[500]),
+        backgroundColor: colors.deepOrange[500],
     }
-}));
+}))
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />
+})
 
 const headCells = [
     { id: 'nombre', label: 'Nombre' },
@@ -92,35 +106,42 @@ const UsuariosView = () => {
             className={classes.root}
             title="Usuarios"
         >
-            <Titulo title="Usuarios" />
+            <Titulo title="Usuarios" btnType='no' />
             <Container maxWidth={false}>
                 <Box mt={3}>
                     <Card>
-                        <CardContent>
-                            <Toolbar>
-                                <Controls.Input
-                                    label="Buscar Usuario"
-                                    className={classes.searchInput}
-                                    InputProps={{
-                                        startAdornment: (<InputAdornment position="start">
-                                            <Search />
-                                        </InputAdornment>)
-                                    }}
-                                    onChange={handleSearch}
-                                />
-                                <Controls.Button
-                                    text="Agregar"
-                                    variant="outlined"
-                                    startIcon={<AddIcon />}
-                                    className={classes.newButton}
-                                    onClick={() => { setOpenPopup(true); setRecordForEdit(null); }}
-                                />
-                            </Toolbar>
-                        </CardContent>
-                    </Card>
-                </Box>
-                <Box mt={3}>
-                    <Card>
+                        <Box p={2}>
+                            <Grid
+                                container
+                                spacing={2}
+                                justify="space-between"
+                                alignItems="center"
+                            >
+                                <Grid
+                                    item
+                                    md={6}
+                                    xs={12}
+                                >
+                                    <Controls.Input
+                                        fullWidth
+                                        placeholder="Buscar Usuario"
+                                        InputProps={{
+                                            startAdornment: (
+                                                <InputAdornment position="start">
+                                                    <SearchIcon color="primary" />
+                                                </InputAdornment>
+                                            )
+                                        }}
+                                        onChange={handleSearch}
+                                    />
+                                </Grid>
+                                <Grid>
+
+                                </Grid>
+
+                            </Grid>
+                        </Box>
+
                         <PerfectScrollbar>
                             <Box >
                                 <TblContainer>
@@ -129,7 +150,25 @@ const UsuariosView = () => {
                                         {
                                             recordsAfterPagingAndSorting().map(item =>
                                             (<TableRow key={item._id} >
-                                                <TableCell>{item.nombre}</TableCell>
+                                                <TableCell>
+                                                    <Box
+                                                        alignItems="center"
+                                                        display="flex"
+                                                    >
+                                                        <Avatar
+                                                            className={classes.avatar}
+                                                            src={item.img}
+                                                        >
+                                                            {getInitials(item.nombre)}
+                                                        </Avatar>
+                                                        <Typography
+                                                            color="textPrimary"
+                                                            variant="body1"
+                                                        >
+                                                            {item.nombre}
+                                                        </Typography>
+                                                    </Box>
+                                                </TableCell>
                                                 <TableCell>{item.email}</TableCell>
                                                 <TableCell>
                                                     {
@@ -184,6 +223,7 @@ const UsuariosView = () => {
                 title="Formulario de Usuario"
                 openPopup={openPopup}
                 setOpenPopup={setOpenPopup}
+                Transition={Transition}
             >
                 <Registro
                     setOpenPopup={setOpenPopup}

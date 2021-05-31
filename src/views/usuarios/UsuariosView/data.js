@@ -1,6 +1,6 @@
-import { v4 as uuid } from 'uuid';
+import { v4 as uuid } from 'uuid'
 
-export default [
+const data = [
     {
         _id: uuid(),
         nombre: "Julio Vidana",
@@ -26,3 +26,5 @@ export default [
         password: uuid()
     }
 ]
+
+export default data

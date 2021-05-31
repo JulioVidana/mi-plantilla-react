@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, connect } from 'react-redux'
+import { connect } from 'react-redux'
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import {
@@ -53,7 +53,7 @@ const initialFValues = {
 
 const RegistroView = (props) => {
     const classes = useStyles();
-    const dispatch = useDispatch()
+    //const dispatch = useDispatch()
     const [values, setValues] = useState(initialFValues);
     const [editar, setEditar] = useState(false)
     //const [msg, setMsg] = useState(null);
